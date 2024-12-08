@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: rick_and_morty
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rick_and_morty?serverTimezone=UTC
+    username: root
+    password: root1234
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    open-in-view: false
