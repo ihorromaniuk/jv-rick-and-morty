@@ -18,6 +18,7 @@ import mate.academy.rickandmorty.exception.HttpException;
 import mate.academy.rickandmorty.exception.MappingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 @RequiredArgsConstructor
@@ -35,6 +36,7 @@ public class RickAndMortyApiClientImpl implements RickAndMortyApiClient {
         int page = FIRST_PAGE;
         int status;
         List<ExternalCharacterDto> responseCharacterDtoList = new ArrayList<>();
+        boolean isListFinished = false;
 
         do {
             HttpRequest request = HttpRequest.newBuilder()
@@ -53,7 +55,7 @@ public class RickAndMortyApiClientImpl implements RickAndMortyApiClient {
             }
             status = response.statusCode();
 
-            if (status == HttpStatus.OK.value()) {
+            if (status == HttpStatus.OK.value() && StringUtils.hasText(response.body())) {
                 try {
                     ResponseAllCharactersDto charactersDto = objectMapper
                             .readValue(response.body(), new TypeReference<>() {});
@@ -62,9 +64,11 @@ public class RickAndMortyApiClientImpl implements RickAndMortyApiClient {
                     throw new MappingException("Can't map response body to "
                             + "ResponseAllCharactersDto object. Body: " + response.body(), e);
                 }
+            } else {
+                isListFinished = true;
             }
             page++;
-        } while (status == HttpStatus.OK.value());
+        } while (status == HttpStatus.OK.value() && !isListFinished);
         
         return responseCharacterDtoList;
     }

@@ -10,5 +10,5 @@ public interface CharacterService {
 
     InternalCharacterDto getRandomCharacter();
 
-    List<InternalCharacterDto> getAllCharactersWithNameLike(String partName, Pageable pageable);
+    List<InternalCharacterDto> getAllCharactersWithNameLike(String namePart, Pageable pageable);
 }

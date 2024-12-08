@@ -30,9 +30,9 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<InternalCharacterDto> getAllCharactersWithNameLike(String partName,
+    public List<InternalCharacterDto> getAllCharactersWithNameLike(String namePart,
                                                                    Pageable pageable) {
-        return repository.getAllByNameLikeIgnoreCase("%" + partName + "%", pageable)
+        return repository.getAllByNameLikeIgnoreCase("%" + namePart + "%", pageable)
                 .stream()
                 .map(characterMapper::toDto)
                 .toList();
